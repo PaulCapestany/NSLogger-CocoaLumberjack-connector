@@ -61,28 +61,52 @@ static Logger *_DDNSLogger_logger = nil;
 - (void)logMessage:(DDLogMessage *)logMessage
 {
 	NSString *logMsg = logMessage->logMsg;
-
+    NSString *newLogMsg;
+    NSString *theClass;
+    
 	if (formatter)
 	{
         // formatting is supported but not encouraged!
 		logMsg = [formatter formatLogMessage:logMessage];
     }
 
-	if (logMsg)
-	{
-    int nsloggerLogLevel;
-		switch (logMessage->logFlag)
-		{
-      // NSLogger log levels start a 0, the bigger the number,
-      // the more specific / detailed the trace is meant to be
-			case LOG_FLAG_ERROR : nsloggerLogLevel = 0; break;
-			case LOG_FLAG_WARN  : nsloggerLogLevel = 1; break;
-			case LOG_FLAG_INFO  : nsloggerLogLevel = 2; break;
-			default : nsloggerLogLevel = 3; break;
-		}
-
-	LogMessageF(logMessage->file, logMessage->lineNumber, logMessage->function, [logMessage fileName], 
-                                nsloggerLogLevel, @"%@", logMsg);
+    if (logMsg) {
+        NSString *nsloggerLogTag;
+        
+        switch (logMessage->logFlag) {
+                // NSLogger log levels start a 0, the bigger the number,
+                // the more specific / detailed the trace is meant to be
+            case LOG_FLAG_ERROR: nsloggerLogTag = @"❰ Error ❱"; break;
+            case LOG_FLAG_REPORT: nsloggerLogTag = @"❰ Report ❱"; break;
+            case LOG_FLAG_FUNC: nsloggerLogTag = @"❰ Function ❱";
+                theClass = [NSString stringWithFormat:@"%@ %@", [@"" stringByPaddingToLength:30 - logMessage.fileName.length withString: @" " startingAtIndex:0], logMessage.fileName];
+                newLogMsg = [NSString stringWithFormat:@"%@ ★ %@", theClass, logMessage.methodName];
+                break;
+            case LOG_FLAG_LOG: nsloggerLogTag = @"❰ Log ❱"; break;
+            case LOG_FLAG_VIEW: nsloggerLogTag = @"❰ View ❱"; break;
+            case LOG_FLAG_DATA: nsloggerLogTag = @"❰ Data ❱"; break;
+            case LOG_FLAG_ACTION: nsloggerLogTag = @"❰ Action ❱"; break;
+            default: nsloggerLogTag = @"❰ Default ❱"; break;
+        }
+        
+        int nsloggerLogLevel;
+        switch (logMessage->logLevel) {
+                // NSLogger log levels start a 0, the bigger the number,
+                // the more specific / detailed the trace is meant to be
+            case LOG_LEVEL_ERROR: nsloggerLogLevel = 0; break;
+            case LOG_LEVEL_REPORT: nsloggerLogLevel = 1; break;
+            case LOG_LEVEL_FUNC: nsloggerLogLevel = 2; break;
+            case LOG_LEVEL_LOG: nsloggerLogLevel = 3; break;
+            default: nsloggerLogLevel = 4; break;
+        }
+        
+        if (newLogMsg) {
+            LogMessageF(logMessage->file, logMessage->lineNumber, logMessage->function, nsloggerLogTag,
+                        nsloggerLogLevel, @"%@", newLogMsg);
+        } else {
+            LogMessageF(logMessage->file, logMessage->lineNumber, logMessage->function, nsloggerLogTag,
+                        nsloggerLogLevel, @"%@", logMsg);
+        }
     }
 }
 
