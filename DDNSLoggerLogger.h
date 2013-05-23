@@ -6,8 +6,6 @@
 #import <Foundation/Foundation.h>
 #import "DDLog.h"
 
-extern int ddLogLevel;
-
 @interface DDNSLoggerLogger : DDAbstractLogger <DDLogger>
 {
 }

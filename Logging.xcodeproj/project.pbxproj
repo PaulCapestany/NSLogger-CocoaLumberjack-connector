@@ -29,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6EA2FBE8174D9CCE00B7D255 /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
 		E499718A151385EB0046D071 /* libLogging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLogging.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E499718D151385EB0046D071 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E499732F1513866C0046D071 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 		E499717F151385EA0046D071 = {
 			isa = PBXGroup;
 			children = (
+				6EA2FBE8174D9CCE00B7D255 /* README.markdown */,
 				E499718F151385EB0046D071 /* Logging */,
 				E49CC0EB16A5612100D1BBFD /* Configurations */,
 				E499718C151385EB0046D071 /* Frameworks */,
